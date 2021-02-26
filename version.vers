@@ -1,0 +1,5 @@
+#pragma once
+
+#cmakedefine MAJOR_VERSION @MAJOR_VERSION
+#cmakedefine MINOR_VERSION @MINOR_VERSION
+#cmakedefine PATCH_VERSION @PATCH_VERSION 

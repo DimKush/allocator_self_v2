@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+#IDE env
+.idea
+
+#build directory
+build
+cmake-build-debug
+
+#version auto generated file
+version.h
