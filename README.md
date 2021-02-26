@@ -11,6 +11,6 @@ access to the elements of their self analogs of C++ containers.
 When you want to safe an order of elements in one "bucket" in any container, you can't do it because features of memory
 allocating with this types of containers in C++ work as it works.
 
-##Idea of realisation
-![Image alt](https://github.com/DimKush//raw/main/readme_stuff/self_allocator_v2/mem_pooler.png)
+## Idea of realisation
+![Image alt](https://github.com/DimKush/readme_stuff/blob/main/self_allocator_v2/mem_pooler.png)
 
