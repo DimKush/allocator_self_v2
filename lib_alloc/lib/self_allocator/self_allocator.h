@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SELF_ALLOCATOR_H_
+#define _SELF_ALLOCATOR_H_
 
 #include "memory_controller/memory_controller.h"
 #include <alloc_mem_export.h>
@@ -51,3 +52,5 @@ public:
         p->~Type();
     }
 };
+
+#endif

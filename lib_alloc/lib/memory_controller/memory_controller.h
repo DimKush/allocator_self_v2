@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MEMORY_CONTROLLER_H_
+#define _MEMORY_CONTROLLER_H_
 
 #include <vector>
 #include <memory>
@@ -64,7 +65,7 @@ public:
             });
             if(iterCluster != iter.end()){
                 if(debug_log > 0)
-                    std::cout << "mem :" << iterCluster->first << " " << iterCluster->second << '\n';
+                    std::cout << "mem :" << iterCluster->first << " size = " << iterCluster->second << '\n';
                 std::free(iterCluster->first);
                 iter.erase(iterCluster);
                 break;
@@ -87,3 +88,6 @@ public:
         }
     }
 };
+
+
+#endif
