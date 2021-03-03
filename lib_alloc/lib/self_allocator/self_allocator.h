@@ -4,6 +4,7 @@
 #include "memory_controller/memory_controller.h"
 #include <alloc_mem_export.h>
 
+
 template<typename Type>
 class self_allocator{
 public:
