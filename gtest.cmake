@@ -1,15 +1,15 @@
 set(GOOGLETEST_ROOT ${PROJECT_SOURCE_DIR}/googletest/googletest)
 
-message("${GOOGLETEST_ROOT}")
+message(DEBUG "${GOOGLETEST_ROOT}")
 
 include_directories(SYSTEM
-        ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
-        ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
+        ${GOOGLETEST_ROOT}
+        ${GOOGLETEST_ROOT}/include
         )
 
 set(GOOGLETEST_SOURCES
-        ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
-        ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
+        ${GOOGLETEST_ROOT}/src/gtest-all.cc
+        ${GOOGLETEST_ROOT}/src/gtest_main.cc
         )
 
 

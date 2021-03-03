@@ -19,7 +19,7 @@ public:
     ALLOC_MEM_EXPORT self_allocator(){}
     ALLOC_MEM_EXPORT ~self_allocator(){}
 
-    Type * ALLOC_MEM_EXPORT allocate(size_type n) {
+    ALLOC_MEM_EXPORT Type * allocate(size_type n) {
         if(debug_log > 0)
             std::cout << __PRETTY_FUNCTION__ << '\n';
 
@@ -32,7 +32,7 @@ public:
         }
     }
 
-    void ALLOC_MEM_EXPORT deallocate(Type *p, size_type) {
+    ALLOC_MEM_EXPORT void deallocate(Type *p, size_type) {
         if(debug_log > 0) {
             std::cout << __PRETTY_FUNCTION__ << '\n';
             std::cout << p << '\n';
@@ -40,13 +40,13 @@ public:
         memory_controller<Type>::instance().destroyMemory(p);
     }
     template<typename U, typename ... Args>
-    void ALLOC_MEM_EXPORT construct(U* p, Args&& ... args){
+    ALLOC_MEM_EXPORT void construct(U* p, Args&& ... args){
         if(debug_log > 0)
             std::cout << __PRETTY_FUNCTION__ << '\n';
 
         new(p) U(std::forward<Args>(args)...);
     }
-    void ALLOC_MEM_EXPORT destroy(Type *p){
+    ALLOC_MEM_EXPORT void destroy(Type *p){
         if(debug_log)
             std::cout << __PRETTY_FUNCTION__ << '\n';
 

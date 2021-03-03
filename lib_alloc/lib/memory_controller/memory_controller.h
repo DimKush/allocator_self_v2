@@ -18,12 +18,12 @@ class memory_controller{
     typename std::vector<cluster>::iterator poolIter;
     typename cluster::iterator clusterIter;
 
-    void ALLOC_MEM_EXPORT AppendCluster(std::size_t const & sz){
+    ALLOC_MEM_EXPORT void AppendCluster(std::size_t const & sz){
         mem_pool.emplace_back(cluster{std::make_pair(reinterpret_cast<T*>(std::malloc(sizeof(T) * sz)), sz)});
         poolIter = std::prev(mem_pool.end());
         clusterIter = std::prev(mem_pool.end())->begin();
     }
-    void ALLOC_MEM_EXPORT AppendNode(std::size_t const & sz){
+    ALLOC_MEM_EXPORT void AppendNode(std::size_t const & sz){
         poolIter->emplace_back(std::make_pair(reinterpret_cast<T*>(std::malloc(sizeof(T) * sz)), sz));
         clusterIter = std::prev(poolIter->end());
     }
@@ -37,11 +37,18 @@ public:
                 free(iterCluster.first);
         mute.unlock();
     }
-    static memory_controller& ALLOC_MEM_EXPORT instance(){
+    ALLOC_MEM_EXPORT void destroyAllMemory(){
+        mute.lock();
+        for(auto iter : mem_pool)
+            for(auto &iterCluster : iter)
+                free(iterCluster.first);
+        mute.unlock();
+    }
+    ALLOC_MEM_EXPORT static memory_controller&  instance(){
         static memory_controller memCntrl;
         return memCntrl;
     }
-    T* ALLOC_MEM_EXPORT giveMemory(std::size_t & sz){
+    ALLOC_MEM_EXPORT T* giveMemory(std::size_t & sz){
         mute.lock();
         if(mem_pool.empty()){
             AppendCluster(sz);
@@ -60,7 +67,7 @@ public:
         }
         mute.unlock();
     }
-    void ALLOC_MEM_EXPORT destroyMemory(T* ptr){
+    ALLOC_MEM_EXPORT void destroyMemory(T* ptr){
         mute.lock();
         for(auto &iter : mem_pool){
             auto iterCluster = std::find_if(iter.begin(), iter.end(),[=](auto cluster){
@@ -83,7 +90,7 @@ public:
             showMemPool();
         mute.unlock();
     }
-    void ALLOC_MEM_EXPORT showMemPool(){
+    ALLOC_MEM_EXPORT void showMemPool(){
         std::cout << "=============SHOW MEM POOL=============" << std::endl;
         int clustOrder = 0;
         for(auto iter = mem_pool.begin(); iter != mem_pool.end(); iter++){

@@ -24,10 +24,11 @@ project(${PROJECT_NAME} VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSIO
 
 include(GenerateExportHeader)
 include(CPack)
+include(${PROJECT_SOURCE_DIR}/gtest.cmake)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-enable_testing()
+
 
 configure_file(version.vers ${PROJECT_SOURCE_DIR}/version.h)
 configure_file(cluster.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/cluster_options.h)
@@ -70,8 +71,8 @@ endif()
 
 
 #include gtest cmake file
-include(${PROJECT_SOURCE_DIR}/gtest.cmake)
-find_package (Threads)
+
+find_package (Threads REQUIRED)
 
 #unit test
 add_executable( unit_test_mem.out
@@ -90,6 +91,12 @@ target_link_libraries( unit_test_mem.out
 target_include_directories(unit_test_mem.out PUBLIC
         ${PROJECT_SOURCE_DIR}/lib_alloc
         )
+
+set_target_properties(unit_test_mem.out
+        PROPERTIES
+        CXX_STANDARD_REQUIRED ON)
+
+enable_testing()
 
 #set(CPACK_GENERATOR DEB)
 
