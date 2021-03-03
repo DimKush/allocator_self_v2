@@ -36,7 +36,13 @@
 
 #build directory
 build
-cmake-build-debug
+lib_alloc/cmake-build-debug
 
 #version auto generated file
 version.h
+cluster_options.h
+
+#build dirs
+build
+cmake-build-debug
+cmake-build-release
