@@ -1,0 +1,4 @@
+#pragma once
+
+#cmakedefine CLUSTER_SIZE @CLUSTER_SIZE@
+#cmakedefine debug_log @debug_log@
