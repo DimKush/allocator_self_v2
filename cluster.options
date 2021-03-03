@@ -1,0 +1,3 @@
+#pragma once
+
+#cmakedefine CLUSTER_SIZE @CLUSTER_SIZE@
