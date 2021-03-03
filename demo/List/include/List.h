@@ -5,8 +5,6 @@
 #ifndef ALLOCATOR_SELF_V2_LIST_DEMO_H
 #define ALLOCATOR_SELF_V2_LIST_DEMO_H
 
-
-
 template<typename T>
 struct Node{
 public:
