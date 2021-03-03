@@ -7,6 +7,9 @@
 #include <algorithm>
 #include "cluster_options.h"
 #include <alloc_mem_export.h>
+#include <mutex>
+
+std::mutex mute;
 
 template<typename T>
 class memory_controller{
@@ -28,15 +31,18 @@ class memory_controller{
 public:
     ALLOC_MEM_EXPORT memory_controller(){}
     ALLOC_MEM_EXPORT ~memory_controller(){
+        mute.lock();
         for(auto iter : mem_pool)
             for(auto &iterCluster : iter)
                 free(iterCluster.first);
+        mute.unlock();
     }
     static memory_controller& ALLOC_MEM_EXPORT instance(){
         static memory_controller memCntrl;
         return memCntrl;
     }
     T* ALLOC_MEM_EXPORT giveMemory(std::size_t & sz){
+        mute.lock();
         if(mem_pool.empty()){
             AppendCluster(sz);
             return clusterIter->first;
@@ -52,8 +58,10 @@ public:
                 return clusterIter->first;
             }
         }
+        mute.unlock();
     }
     void ALLOC_MEM_EXPORT destroyMemory(T* ptr){
+        mute.lock();
         for(auto &iter : mem_pool){
             auto iterCluster = std::find_if(iter.begin(), iter.end(),[=](auto cluster){
                 if(cluster.first == ptr){
@@ -73,6 +81,7 @@ public:
         }
         if(debug_log > 0)
             showMemPool();
+        mute.unlock();
     }
     void ALLOC_MEM_EXPORT showMemPool(){
         std::cout << "=============SHOW MEM POOL=============" << std::endl;
