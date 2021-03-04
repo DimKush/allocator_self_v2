@@ -51,14 +51,15 @@ if("${DEMO_READY}" STREQUAL "OFF")
     message(DEBUG " Build without demo")
 
 else()
+    find_package(Threads REQUIRED)
     message(DEBUG " Build with demo")
     #source
-    add_executable(${PROJECT_NAME} demo/main.cpp demo/List/List.cpp)
+    add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/demo/main.cpp)
 
-    target_include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/demo)
+    target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/demo)
 
     #link library
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
     set_target_properties(${PROJECT_NAME}
             PROPERTIES
