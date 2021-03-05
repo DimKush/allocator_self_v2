@@ -29,12 +29,15 @@ class memory_controller{
     }
     static const ALLOC_MEM_EXPORT int CLUST_SZ = CLUSTER_SIZE; // cluster size
 public:
-    ALLOC_MEM_EXPORT memory_controller(){}
+    ALLOC_MEM_EXPORT memory_controller(){
+        mem_pool.reserve(0);
+    }
     ALLOC_MEM_EXPORT ~memory_controller(){
         mute.lock();
         for(auto iter : mem_pool)
             for(auto &iterCluster : iter)
-                free(iterCluster.first);
+                destroyMemory(iterCluster.first);
+
         mute.unlock();
     }
     ALLOC_MEM_EXPORT void destroyAllMemory(){
@@ -49,7 +52,6 @@ public:
         return memCntrl;
     }
     ALLOC_MEM_EXPORT T* giveMemory(std::size_t & sz){
-        mute.lock();
         if(mem_pool.empty()){
             AppendCluster(sz);
             return clusterIter->first;
@@ -65,7 +67,6 @@ public:
                 return clusterIter->first;
             }
         }
-        mute.unlock();
     }
     ALLOC_MEM_EXPORT void destroyMemory(T* ptr){
         mute.lock();
@@ -102,6 +103,9 @@ public:
             }
             clustOrder++;
         }
+    }
+    std::vector<cluster> const & return_const_pool() const {
+        return mem_pool;
     }
 };
 

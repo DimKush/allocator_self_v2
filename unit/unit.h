@@ -9,8 +9,9 @@
 #include <gtest/gtest.h>
 #include "version.h"
 namespace units{
+    int size = 5;
     bool checkPatchVersion();
     void memory_set(int & val);
-    void fill_multithread();
+    bool memory_controller_sample_insert();
 };
 #endif //ALLOCATOR_SELF_V2_UNIT_H
