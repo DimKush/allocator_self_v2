@@ -33,10 +33,6 @@ public:
     }
 
     ALLOC_MEM_EXPORT void deallocate(Type *p, size_type) {
-        if(debug_log > 0) {
-            std::cout << __PRETTY_FUNCTION__ << '\n';
-            std::cout << p << '\n';
-        }
         memory_controller<Type>::instance().destroyMemory(p);
     }
     template<typename U, typename ... Args>

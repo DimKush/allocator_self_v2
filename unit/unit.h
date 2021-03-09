@@ -13,5 +13,6 @@ namespace units{
     bool checkPatchVersion();
     void memory_set(int & val);
     bool memory_controller_sample_insert();
+    bool clear_mem_pool();
 };
 #endif //ALLOCATOR_SELF_V2_UNIT_H

@@ -33,20 +33,22 @@ public:
         mem_pool.reserve(0);
     }
     ALLOC_MEM_EXPORT ~memory_controller(){
-        mute.lock();
-        for(auto iter : mem_pool)
-            for(auto &iterCluster : iter)
-                destroyMemory(iterCluster.first);
-
-        mute.unlock();
+        showMemPool();
+        destroyAllMemory();
     }
     ALLOC_MEM_EXPORT void destroyAllMemory(){
         mute.lock();
-        for(auto iter : mem_pool)
-            for(auto &iterCluster : iter)
-                free(iterCluster.first);
+        for(auto blockIter = mem_pool.begin(); blockIter != mem_pool.end(); blockIter++){
+            for(auto iterCluster = blockIter->begin(); iterCluster != blockIter->end(); ++iterCluster){
+                free(iterCluster->first);
+                blockIter->erase(iterCluster);
+                iterCluster--;
+            }
+        }
+
         mute.unlock();
     }
+
     ALLOC_MEM_EXPORT static memory_controller&  instance(){
         static memory_controller memCntrl;
         return memCntrl;
@@ -81,7 +83,7 @@ public:
             });
             if(iterCluster != iter.end()){
                 if(debug_log > 0)
-                    std::cout << "mem :" << iterCluster->first << " size = " << iterCluster->second << '\n';
+                    std::cout << "delete >> mem :" << iterCluster->first << " size = " << iterCluster->second << '\n';
                 std::free(iterCluster->first);
                 iter.erase(iterCluster);
                 break;
@@ -106,6 +108,14 @@ public:
     }
     std::vector<cluster> const & return_const_pool() const {
         return mem_pool;
+    }
+
+    typename std::vector<cluster>::const_iterator cbegin(){
+        return mem_pool.cbegin();
+    }
+
+    typename std::vector<cluster>::const_iterator cend(){
+        return mem_pool.cbegin();
     }
 };
 

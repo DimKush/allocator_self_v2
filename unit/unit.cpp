@@ -31,7 +31,7 @@ namespace units{
 
     bool memory_controller_sample_insert(){
         self_allocator<int> alloc;
-        for(auto i = 0 ; i < 5; i++){
+        for(auto i = 0 ; i < 2; i++){
             auto data = alloc.allocate(1);
             alloc.construct(data, i);
         }
@@ -54,11 +54,31 @@ namespace units{
             }
             i++;
         }
+        memory_controller<int>::instance().destroyAllMemory();
         return true;
     }
 
-    void clear_mem_pool(){
+    bool clear_mem_pool(){
+        self_allocator<int> alloc;
+        for(auto i = 0 ; i < 5; i++){
+            auto data = alloc.allocate(1);
+            alloc.construct(data, i);
+        }
 
+        memory_controller<int>::instance().destroyAllMemory();
+
+        for(auto blockIter = memory_controller<int>::instance().cbegin();
+        blockIter != memory_controller<int>::instance().cend();blockIter++){
+            for (auto iterCluster = blockIter->begin(); iterCluster != blockIter->end(); ++iterCluster) {
+                if (iterCluster->first != nullptr) {
+                    memory_controller<int>::instance().destroyAllMemory();
+                    return false;
+                }
+            }
+        }
+
+        memory_controller<int>::instance().destroyAllMemory();
+        return true;
     }
 }
 
@@ -69,4 +89,8 @@ TEST(checkPatchVersion, VersionController){
 
 TEST(FillByThreads, allocateMemory){
     ASSERT_TRUE(units::memory_controller_sample_insert());
+}
+
+TEST(FillByThreads, dropMemory){
+    ASSERT_TRUE(units::clear_mem_pool());
 }
