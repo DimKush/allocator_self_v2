@@ -17,19 +17,22 @@ set(DEMO_READY ON)
 set(CLUSTER_SIZE 5)
 
 #turn off (-1) or turn on (1) debug option
-set(debug_log 1)
+set(debug_log -1)
 
-
-
+#project declaration
 project(${PROJECT_NAME} VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 include(GenerateExportHeader)
+include(CPack)
+include(${PROJECT_SOURCE_DIR}/gtest.cmake)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 configure_file(version.vers ${PROJECT_SOURCE_DIR}/version.h)
 configure_file(cluster.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/cluster_options.h)
+configure_file(demo_status.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/demo_status.h)
 
 #shared_library
 add_library(${LIB_NAME} SHARED
@@ -69,6 +72,46 @@ else()
 endif()
 
 
+#include gtest cmake file
 
+find_package (Threads REQUIRED)
+
+#unit test
+add_executable( unit_test_mem.out
+        ${PROJECT_SOURCE_DIR}/unit/unit.cpp
+        ${PROJECT_SOURCE_DIR}/unit/unit.h
+        ${PROJECT_SOURCE_DIR}/unit/main.cpp
+        )
+
+#targets unit tests
+target_link_libraries( unit_test_mem.out
+                        googletestLib
+                        ${CMAKE_THREAD_LIBS_INIT}
+                        ${LIB_NAME}
+        )
+
+target_include_directories(unit_test_mem.out PUBLIC
+        ${PROJECT_SOURCE_DIR}/lib_alloc
+        )
+
+set_target_properties(unit_test_mem.out
+        PROPERTIES
+        CXX_STANDARD_REQUIRED ON)
+
+enable_testing()
+
+#set(CPACK_GENERATOR DEB)
+
+#set(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
+#set(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
+#set(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
+
+#set(CPACK_PACKAGE_CONTACT dimkysh@gmail.com)
+
+#set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+
+
+add_test(unit_test unit_test_mem.out)
 
 #target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/lib_alloc/lib)

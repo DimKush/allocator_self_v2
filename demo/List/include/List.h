@@ -5,8 +5,6 @@
 #ifndef ALLOCATOR_SELF_V2_LIST_DEMO_H
 #define ALLOCATOR_SELF_V2_LIST_DEMO_H
 
-
-
 template<typename T>
 struct Node{
 public:
@@ -85,6 +83,27 @@ public:
     }
 
     void insert(T && val){
+        if(top != nullptr){
+            Node<T> * current = top;
+            while(current->next != nullptr && current->next->data != nullptr){
+                current = current->next;
+            }
+
+            auto data = allocator_obj.allocate(1);
+            allocator_obj.construct(data, std::forward<T>(val));
+
+            current->next = data;
+            current->next->next = bottom;
+            current->next->prev = current;
+            bottom->prev = current->next;
+        }
+        else{
+            top = new Node<T>();
+            bottom = new Node<T>();
+            insert(std::forward<T>(val));
+        }
+    }
+    void insert(T & val){
         if(top != nullptr){
             Node<T> * current = top;
             while(current->next != nullptr && current->next->data != nullptr){

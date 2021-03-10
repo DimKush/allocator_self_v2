@@ -14,4 +14,6 @@ allocating with this types of containers in C++ work as it works.
 ## Idea of realisation
 ![Image alt](https://github.com/DimKush/readme_stuff/blob/main/self_allocator_v2/mem_pooler.png)
 
-
+//TODO
+## Unit tests
+//TODO

@@ -1,0 +1,3 @@
+#pragma once
+
+#cmakedefine DEMO_READY @DEMO_READY@
