@@ -28,7 +28,27 @@ public:
     virtual void virtual_plug() {}
 };
 
-template< typename T, typename allocator = self_allocator<Node<T>> >
+// small metatric to change the type of allocator from alloc<T> to alloc<Node<T>>
+template<typename T>
+struct change_allocator_t{
+    using type = T;
+};
+
+template<typename T>
+struct change_allocator_t<std::allocator<T>>{
+    using type = std::allocator<Node<T>>;
+};
+
+template<typename T>
+struct change_allocator_t<self_allocator<T>>{
+using type = self_allocator<Node<T>>;
+};
+
+template< typename T,
+          typename allocator = std::allocator<T>,
+          typename allocator_t = typename change_allocator_t<allocator>::type
+        >
+
 class List : public Node<T>{
 public:
     //using Node = Node<T>;
@@ -36,7 +56,7 @@ public:
     using size_type = std::size_t;
     using difference_type = std::ptrdiff_t;
 private:
-    allocator allocator_obj;
+    allocator_t allocator_obj;
     Node<T> * top = nullptr;
     Node<T> * bottom = nullptr;
 
