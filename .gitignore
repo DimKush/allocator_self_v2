@@ -41,6 +41,7 @@ lib_alloc/cmake-build-debug
 #version auto generated file
 version.h
 cluster_options.h
+demo_status.h
 
 #build dirs
 build

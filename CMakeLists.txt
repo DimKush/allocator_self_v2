@@ -32,6 +32,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 configure_file(version.vers ${PROJECT_SOURCE_DIR}/version.h)
 configure_file(cluster.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/cluster_options.h)
+configure_file(demo_status.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/demo_status.h)
 
 #shared_library
 add_library(${LIB_NAME} SHARED

@@ -9,7 +9,11 @@
 
 #include "unit.h"
 #include "self_allocator/self_allocator.h"
+#include "demo_status.h"
 
+#if DEMO_READY == ON
+#include "demo/List/include/List.h"
+#endif
 
 namespace units{
     bool checkPatchVersion(){
@@ -77,7 +81,6 @@ namespace units{
 }
 
 
-
 TEST(checkPatchVersion, VersionController){
     ASSERT_TRUE(units::checkPatchVersion());
 };
@@ -125,3 +128,28 @@ TEST(FillSimple, fillStlCustomAllocator){
 
     ASSERT_TRUE(size_selfMap != size_deaultMap); // if this test will not pass, functionality doesn't have a point
 }
+
+
+// if demo status is ON - the additional unit tests
+
+#if DEMO_READY == ON
+
+TEST(FillSimple, fillCustomList){
+    List<int> defAllocList;
+    List<int, self_allocator<int>> customAllocList;
+
+    for(auto i = 0; i < 5 ; i++){
+        defAllocList.insert(i);
+        customAllocList.insert(i);
+    }
+
+    auto iterDef = defAllocList.begin();
+    auto iterCustom = customAllocList.begin();
+
+    while(iterDef != defAllocList.end() && iterCustom != customAllocList.end()) {
+        ASSERT_EQ(*iterDef->data, *iterCustom->data);
+        ++iterDef ; ++iterCustom;
+    }
+}
+
+#endif
