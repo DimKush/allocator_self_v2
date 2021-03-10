@@ -43,7 +43,7 @@ public:
         new(p) U(std::forward<Args>(args)...);
     }
     ALLOC_MEM_EXPORT void destroy(Type *p){
-        if(debug_log)
+        if(debug_log > 0)
             std::cout << __PRETTY_FUNCTION__ << '\n';
 
         p->~Type();

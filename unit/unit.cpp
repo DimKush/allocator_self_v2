@@ -39,16 +39,10 @@ namespace units{
         int i = 0;
         for(const auto & iter : memory_controller<int>::instance().return_const_pool()){
             auto  iterCluster = std::find_if(iter.begin(), iter.end(),[&](auto const & cluster) {
-                if (*cluster.first == i) {
-                    std::cout << "i = " << i << " *cluster.first = " << *cluster.first << std::endl;
-                    return true;
-                } else {
-                    return false;
-                }
+                return *cluster.first == i;
             });
 
             if(iterCluster == iter.end()){
-                std::cout << "i = " << i << iterCluster->first << std::endl ;
                 memory_controller<int>::instance().destroyAllMemory();
                 return false;
             }
@@ -83,14 +77,51 @@ namespace units{
 }
 
 
+
 TEST(checkPatchVersion, VersionController){
     ASSERT_TRUE(units::checkPatchVersion());
 };
 
-TEST(FillByThreads, allocateMemory){
+TEST(FillSimple, allocateMemory){
     ASSERT_TRUE(units::memory_controller_sample_insert());
 }
 
-TEST(FillByThreads, dropMemory){
+TEST(FillSimple, dropMemory){
     ASSERT_TRUE(units::clear_mem_pool());
+}
+
+TEST(FillSimple, fillStlCustomAllocator){
+    std::vector<int> vectCompare;
+    std::vector<int,self_allocator<int>> vectSelfAlloc;
+
+    std::map<const int, std::string, std::less<>, self_allocator<std::pair<const int,std::string>>> selfMap;
+    std::map<const int, std::string, std::less<>> deaultMap;
+
+
+    for(auto i = 0; i < 10; i ++){
+        vectCompare.push_back(i);
+        vectSelfAlloc.push_back(i);
+
+        //selfMap.insert({i,std::to_string(i)});
+        deaultMap.insert({i,std::to_string(i)});
+    }
+
+    for(auto i = 0 ; i < vectCompare.size() ; i++){
+        ASSERT_EQ(vectSelfAlloc.at(i), vectCompare.at(i));
+    }
+
+    for(auto i = 0; i < selfMap.size(); i++){
+        ASSERT_EQ(selfMap.at(i), deaultMap.at(i));
+    }
+
+    auto size_vectCompare = sizeof(std::vector<int>) + sizeof(int) * vectCompare.size();
+    auto size_vectSelfAlloc = sizeof(std::vector<int,self_allocator<int>>) + sizeof(int) * vectSelfAlloc.size();
+    ASSERT_EQ(size_vectCompare, size_vectSelfAlloc);
+
+    auto size_selfMap = sizeof(std::map<const int, std::string, std::less<>, self_allocator<std::pair<const int,std::string>>>)
+                          + sizeof(int) * selfMap.size();
+
+    auto size_deaultMap = sizeof(std::map<const int, std::string, std::less<>>) + sizeof(int) * deaultMap.size();
+
+    ASSERT_TRUE(size_selfMap != size_deaultMap); // if this test will not pass, functionality doesn't have a point
 }

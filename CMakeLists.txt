@@ -17,7 +17,7 @@ set(DEMO_READY OFF)
 set(CLUSTER_SIZE 5)
 
 #turn off (-1) or turn on (1) debug option
-set(debug_log 1)
+set(debug_log -1)
 
 #project declaration
 project(${PROJECT_NAME} VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
