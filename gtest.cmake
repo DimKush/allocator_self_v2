@@ -2,6 +2,9 @@ set(GOOGLETEST_ROOT ${PROJECT_SOURCE_DIR}/googletest/googletest)
 
 message(DEBUG "${GOOGLETEST_ROOT}")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include_directories(SYSTEM
         ${GOOGLETEST_ROOT}
         ${GOOGLETEST_ROOT}/include
