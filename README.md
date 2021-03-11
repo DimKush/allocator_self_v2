@@ -16,12 +16,12 @@ allocating with this types of containers in C++ work as it works.
 
 //TODO
 ## Unit tests
-Unit tests are based on googletest
+Unit tests are based on googletest library.
 //TODO
 
 ## How to use
 
-## How to install as deb
+## How to install/uninstall as deb
 
 ## How to uninstall as deb
 
