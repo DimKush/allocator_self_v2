@@ -3,24 +3,18 @@ sudo: false #disable sudo in scripts
 language: cpp
 python: "3.7"
 
-compiler: clang
+compiler: 
+  - gcc
 
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
-      key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
-    - clang-9
+    - gcc-6
+    - g++-6
     - cmake
     - cmake-data 
-env: TOOLSET=clang COMPILER=clang++-9 CXXSTD=c++17 TEST_SUITE=misc
-
-before_script:
-    - export CXX="clang++-9"
-    - export CC="clang-9"
-
 script:
     - build_project.py
 
