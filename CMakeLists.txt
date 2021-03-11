@@ -4,14 +4,14 @@ cmake_minimum_required(VERSION 3.14)
 set( CMAKE_MESSAGE_LOG_LEVEL "DEBUG" )
 
 set(MAJOR_VERSION 0)
-set(MINOR_VERSION 0)
-set(PATCH_VERSION 1)
+set(MINOR_VERSION 1)
+set(PATCH_VERSION 6)
 
 set(PROJECT_NAME allocator_self_v2)
 set(LIB_NAME alloc_mem)
 
 #prepare executable for test functionality in custom List and std::map OFF / ON)
-set(DEMO_READY OFF)
+set(DEMO_READY ON)
 
 #SIZE OF CLUSTER IN MEMORY POOL
 set(CLUSTER_SIZE 5)
@@ -23,7 +23,6 @@ set(debug_log -1)
 project(${PROJECT_NAME} VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 include(GenerateExportHeader)
-include(CPack)
 include(${PROJECT_SOURCE_DIR}/gtest.cmake)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -100,18 +99,36 @@ set_target_properties(unit_test_mem.out
 
 enable_testing()
 
-#set(CPACK_GENERATOR DEB)
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "KK")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-#set(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
-#set(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
-#set(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
 
-#set(CPACK_PACKAGE_CONTACT dimkysh@gmail.com)
-
-#set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(CPACK_PACKAGE_CONTACT dimkysh@gmail.com)
 
 
+if("${DEMO_READY}" STREQUAL "OFF")
+    install(TARGETS ${LIB_NAME}
+            COMPONENT linapp
+            LIBRARY DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            )
+else()
+    install(TARGETS ${LIB_NAME} ${PROJECT_NAME}
+            COMPONENT linapp
+            RUNTIME DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            LIBRARY DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            )
+
+endif()
+
+
+
+
+include(CPack)
 
 add_test(unit_test unit_test_mem.out)
-
-#target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/lib_alloc/lib)
