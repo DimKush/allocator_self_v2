@@ -40,8 +40,9 @@ If you turn on The <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEBUG MOD<
 //TODO
 
 ## How to use
-
+//TODO
 ## How to install/uninstall as deb
+//TODO
 ## Direction of installing
 //TODO
 
