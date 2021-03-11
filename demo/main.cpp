@@ -46,44 +46,7 @@ public:
 };
 
 int main(){
-    std::map<int, int, std::less<>, self_allocator<std::pair<const int,hard>>> mp_alloc_self;
-    mp_alloc_self.insert({1,1});
-    mp_alloc_self.insert({2,1});
-    mp_alloc_self.insert({3,1});
-    mp_alloc_self.insert({4,1});
+    std::map<int
 
-    std::cout << "DONE" << std::endl;
-    /*
-    List<hard> lst{std::move(List<hard>(std::move(hard(count_factorial(5),count_fibonacci(5)))))};                         // TODO container List must to get default allocator
-    std::map<int, hard, std::less<const int>, self_allocator<std::pair<const int,hard>>> mp_alloc_self;
-    std::map<int,hard> mp_auto_alloc;
-    for(auto i = 0 ; i < 10 ; i++){
-        lst.insert(std::move(hard(count_factorial(i),count_fibonacci(i))));
-        mp_alloc_self.insert({i, std::move(hard(count_factorial(i),count_fibonacci(i)))});
-        mp_auto_alloc.insert({i, std::move(hard(count_factorial(i),count_fibonacci(i)))});
-    }
-
-    for(auto &i : mp_alloc_self)
-        std::cout << i.first << " " << i.second  << " " << &i << '\n';
-    
-    for(auto &i : mp_auto_alloc)
-        std::cout << i.first << " " << i.second  << " " << &i << '\n';    
-
-    for(auto element : lst)
-        std::cout << *element.data << '\n';
-    */
-    /*
-   List<int> lst{10,22,33};
-   List<int> lst_self{50,60,70};
-//   lst.print_adressess();
-    std::for_each(lst.begin(),lst.end(),[](auto element){
-        std::cout << element.data;
-    });
-    std::for_each(lst_self.begin(),lst_self.end(),[](auto element){
-        std::cout << element.data;
-    });
-//    for(const auto iter : lst)
-//       std::cout << *(iter.data) << std::endl;
-    */
-   return 0;
+    return 0;
 }
