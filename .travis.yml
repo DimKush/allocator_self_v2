@@ -1,0 +1,36 @@
+os: Linux
+dist: xenial
+sudo: false #disable sudo in scripts
+language: python
+python: "3.7"
+
+compiler: clang
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+    packages:
+      - clang-9
+      - cmake
+      - cmake-data
+env: TOOLSET=clang COMPILER=clang++-9 CXXSTD=c++17 TEST_SUITE=misc
+
+before_script:
+  - export CXX="clang++-9"
+  - export CC="clang-9"
+
+script:
+  - conan install .
+  - cmake  -DCMAKE_BUILD_TYPE=Release .
+  - cmake --build .
+  - cmake --build . --target test
+  - cmake --build . --target package
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - curl -f -T ip_filter_csv_conan_range-0.1.$TRAVIS_BUILD_NUMBER-Linux.deb -udimkush:$BINTRAY_API_KEY "https://api.bintray.com/content/dimkush/filters/ip_filter_csv_conan_range/$TRAVIS_BUILD_NUMBER/ip_filter_csv-0.1.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=xenial;deb_component=main;deb_architecture=amd64;publish=1"

@@ -19,7 +19,8 @@ public:
         data = new T(*val.data);
     }
     ~Node(){
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
+        if(debug_log > 0)
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
         delete data;
     }
     // using that no one can create instances of Node
@@ -71,7 +72,8 @@ public:
 
     List(){}
     ~List(){
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
+        if(debug_log > 0)
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
         Node<T> * topTmp = top;
 
         while(topTmp != nullptr){
@@ -143,7 +145,7 @@ public:
         iterator(pointer ptr) : it_ptr(ptr){}
         reference operator *() const { return *it_ptr; }
         pointer operator->() const{ return it_ptr; }
-        iterator& operator++() { std::cout << __PRETTY_FUNCTION__ << std::endl; it_ptr= it_ptr->next ; return *this; }
+        iterator& operator++() { it_ptr= it_ptr->next ; return *this; }
         iterator operator++(int) { iterator tmp = *this; it_ptr = it_ptr->next; return tmp; }
         friend bool operator == (iterator const & first, iterator const & second){ return first.it_ptr == second.it_ptr; }
         friend bool operator != (iterator const & first, iterator const & second){std::cout << __PRETTY_FUNCTION__ << std::endl; return first.it_ptr != second.it_ptr; }
@@ -169,8 +171,8 @@ public:
         pointer it_ptr;
     };
 
-    iterator begin(){ std::cout << __PRETTY_FUNCTION__ << std::endl; return iterator(top->next); }
-    iterator end(){ std::cout << __PRETTY_FUNCTION__ << std::endl; return iterator(bottom); }
+    iterator begin(){ return iterator(top->next); }
+    iterator end(){ return iterator(bottom); }
 };
 
 
