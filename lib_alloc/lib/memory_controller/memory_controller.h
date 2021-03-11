@@ -94,7 +94,8 @@ public:
         mute.unlock();
     }
     ALLOC_MEM_EXPORT void showMemPool(){
-        std::cout << "=============SHOW MEM POOL=============" << std::endl;
+        if(debug_log > 0)
+            std::cout << "=============SHOW MEM POOL=============" << std::endl;
         int clustOrder = 0;
         for(auto iter = mem_pool.begin(); iter != mem_pool.end(); iter++){
             if(debug_log > 0)

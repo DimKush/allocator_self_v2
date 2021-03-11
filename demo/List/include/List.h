@@ -148,7 +148,7 @@ public:
         iterator& operator++() { it_ptr= it_ptr->next ; return *this; }
         iterator operator++(int) { iterator tmp = *this; it_ptr = it_ptr->next; return tmp; }
         friend bool operator == (iterator const & first, iterator const & second){ return first.it_ptr == second.it_ptr; }
-        friend bool operator != (iterator const & first, iterator const & second){std::cout << __PRETTY_FUNCTION__ << std::endl; return first.it_ptr != second.it_ptr; }
+        friend bool operator != (iterator const & first, iterator const & second){ return first.it_ptr != second.it_ptr; }
     private:
         pointer it_ptr;
     };

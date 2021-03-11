@@ -9,44 +9,53 @@
 
 #include "self_allocator/self_allocator.h"
 #include "List/include/List.h"
+#include "demo/hard/include/hard.h"
 
-//template<typename T>
-int count_factorial(int const & count){
-    if(count == 1){
-        return 1;
+int main(int argc, char **argv){
+    int count_iterations = 0;
+
+    if(argc > 1)
+        count_iterations = std::stoi(argv[1]);
+    else {
+        std::cout << "argument isn't installed, set to default = 10.\n";
+        count_iterations = 10;
     }
 
-    int current_val = 1, res = 1;
-    while(current_val <= count){
-        res *= current_val;
-        current_val++;
-    }
+    std::cout << "create std::map<int,hard>\n";
+    std::map<int,hard> defaultMap;
+    for(auto i = 0 ; i < count_iterations; i++)
+        defaultMap.insert({i, hard{i} });
 
-    return res;
-}
+    std::cout << "std::map<int,hard, std::less<>, self_allocator<std::pair<int, hard>>\n";
+    std::map<int,hard, std::less<>, self_allocator<std::pair<int, hard>>> customAllocMap;
+    for(auto i = 0 ; i < count_iterations; i++)
+        customAllocMap.insert({i, hard{i} });
 
-unsigned long long count_fibonacci(int count){
-    if(count == 0)
-        return 0;
-    if(count == 1)
-        return 1;
+    std::cout << "std::map<int,hard> output\n";
+    for(const auto &i : defaultMap)
+        std::cout << i.second << '\n';
 
-    return count_fibonacci(count - 2) + count_fibonacci(count - 1);
-}
+    std::cout << "std::map<int,hard, std::less<>, self_allocator<std::pair<int, hard>> output\n";
+    for(const auto &i : customAllocMap)
+        std::cout << i.second << '\n';
 
-struct hard{
-private:
-    int fa, fi;
-public:
-    hard(int fa_, int fi_) : fa(fa_), fi(fi_) {}
-    friend std::ostream & operator << (std::ostream & os, hard & hard){
-        os << hard.fa << " " << hard.fi << " ";
-        return os;
-    }
-};
+    std::cout << "create custom container List<hard>\n";
+    List<hard> defAllocList;
+    for(auto i = 0 ; i < count_iterations; i++)
+        defAllocList.insert(hard{i});
 
-int main(){
-    std::map<int
+    std::cout << "List<hard> output\n";
+    for(const auto &i : defAllocList)
+        std::cout << *i.data << '\n';
+
+    std::cout << "create custom container List<hard, self_allocator<hard>>\n";
+    List<hard,self_allocator<hard>> custAllocList;
+    for(auto i = 0 ; i < count_iterations; i++)
+        custAllocList.insert(hard{i});
+
+    std::cout << "List<hard, self_allocator<hard>> output\n";
+    for(const auto &i : defAllocList)
+        std::cout << *i.data << '\n';
 
     return 0;
 }
