@@ -15,21 +15,27 @@ allocating with this types of containers in C++ work as it works.
 
 ## Idea of realisation
 ![Image alt](https://github.com/DimKush/readme_stuff/blob/main/self_allocator_v2/mem_pooler.png)
+The main idea - is to build <abbr title="Singleton by Scott Meyers">Singleton</abbr> class memory_controller. This template class will provide all memory operations like: 
++ get the memory
++ drop the memory
 
-//TODO
+
 ## Unit tests
 Unit tests are based on [googletest](http://localhost/ "link title") library.
 List of unit tests :
 + Ordinary tests:
-    + VersionController - check version of project from CmakeLists.txt;
+    + VersionController - check version of the project from CmakeLists.txt;
     + allocateMemory - allocate memory and search values in memory_controller;
-    + dropMemory - delete allocated memory;
-    + fillStlCustomAllocator - fill stl containers (std::vector<int>, std::map):
+    + dropMemory - delete the allocated memory;
+    + fillStlCustomAllocator - fill the stl containers (std::vector<int>, std::map):
         + with std::allocator;
         + with self_allocator;
+		
 If you turn on The <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEBUG MOD</abbr>:
 + Demo tests:
-    + fillCustomList - fill custom List with std::alocator and self_allocator help.
+    + fillCustomList - fill custom List
+		+ with std::alocator 
+		+ with self_allocator help.
 
 //TODO
 
@@ -39,4 +45,5 @@ If you turn on The <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEBUG MOD<
 ## Direction of installing
 //TODO
 
-## MAIN UNSOLVED PROBLEM OF THE PROJECT
+# Main unresolved problem of the project.
+Right know memory_controller and self_allocator can't work with std::thread and std::async.
