@@ -11,7 +11,7 @@ set(PROJECT_NAME allocator_self_v2)
 set(LIB_NAME alloc_mem)
 
 #prepare executable for test functionality in custom List and std::map OFF / ON)
-set(DEMO_READY ON)
+set(DEMO_READY OFF)
 
 #SIZE OF CLUSTER IN MEMORY POOL
 set(CLUSTER_SIZE 5)
