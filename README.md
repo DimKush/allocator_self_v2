@@ -1,5 +1,5 @@
 # allocator_self_v2
-Another implementation of default std::allocator to trick std::map and std::list containers, that its values will be storage in one memory cluster like std::vector or std::array.
+Another implementation of default std::allocator to trick std::map, std::list etc containers, that it's values will be storage in one memory cluster like std::vector or std::array.
 
 ## The main purpose
 The main purpose of this project is to trick C++ default memory allocating and try to safe all elements near each other.
@@ -16,4 +16,16 @@ allocating with this types of containers in C++ work as it works.
 
 //TODO
 ## Unit tests
+Unit tests are based on googletest
 //TODO
+
+## How to use
+
+## How to install as deb
+
+## How to uninstall as deb
+
+## Direction of installing
+//TODO
+
+## MAIN UNSOLVED PROBLEM OF PROJECT
