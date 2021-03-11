@@ -16,7 +16,7 @@ addons:
     - cmake
     - cmake-data 
 script:
-    - build_project.py
+    - ./build_project.py
 
 #
 #deploy:
