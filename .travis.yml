@@ -13,8 +13,15 @@ addons:
     packages:
     - gcc-6
     - g++-6
-    - cmake
-    - cmake-data 
+
+before_install:
+  # Install a supported cmake version (>= 3.14)
+  - wget -O cmake.sh https://cmake.org/files/v3.14/cmake-3.14.0-Linux-x86_64.sh
+  - sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
+  - export PATH=/usr/local/bin:$PATH
+  - cmake --version
+
+
 script:
     - ./build_project.py
 
