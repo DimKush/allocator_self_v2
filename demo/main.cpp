@@ -52,6 +52,7 @@ int main(){
     mp_alloc_self.insert({3,1});
     mp_alloc_self.insert({4,1});
 
+    std::cout << "DONE" << std::endl;
     /*
     List<hard> lst{std::move(List<hard>(std::move(hard(count_factorial(5),count_fibonacci(5)))))};                         // TODO container List must to get default allocator
     std::map<int, hard, std::less<const int>, self_allocator<std::pair<const int,hard>>> mp_alloc_self;
