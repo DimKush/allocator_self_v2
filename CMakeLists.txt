@@ -5,7 +5,16 @@ set( CMAKE_MESSAGE_LOG_LEVEL "DEBUG" )
 
 set(MAJOR_VERSION 0)
 set(MINOR_VERSION 1)
-set(PATCH_VERSION 6)
+
+
+message(DEBUG " Build type : ${CMAKE_BUILD_TYPE}")
+if(CMAKE_BUILD_TYPE STREQUAL Release)
+    message(DEBUG " Build type : ${CMAKE_BUILD_TYPE}")
+    set(PATCH_VERSION $ENV{TRAVIS_BUILD_NUMBER})
+else()
+    set(PATCH_VERSION 6)
+
+endif()
 
 set(PROJECT_NAME allocator_self_v2)
 set(LIB_NAME alloc_mem)
@@ -56,7 +65,8 @@ else()
     find_package(Threads REQUIRED)
     message(DEBUG " Build with demo")
     #source
-    add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/demo/main.cpp)
+    add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/demo/main.cpp
+                                   ${PROJECT_SOURCE_DIR}/demo/hard/src/hard.cpp)
 
     target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/demo)
 
@@ -117,11 +127,10 @@ if("${DEMO_READY}" STREQUAL "OFF")
             )
 else()
     install(TARGETS ${LIB_NAME} ${PROJECT_NAME}
-            RUNTIME DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
-            LIBRARY DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            RUNTIME DESTINATION "/home/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            LIBRARY DESTINATION "/home/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
             DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
             )
-
 endif()
 
 

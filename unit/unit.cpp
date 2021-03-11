@@ -35,7 +35,7 @@ namespace units{
 
     bool memory_controller_sample_insert(){
         self_allocator<int> alloc;
-        for(auto i = 0 ; i < 2; i++){
+        for(auto i = 0 ; i < 10; i++){
             auto data = alloc.allocate(1);
             alloc.construct(data, i);
         }
