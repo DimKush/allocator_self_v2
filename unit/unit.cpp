@@ -40,25 +40,33 @@ namespace units{
             alloc.construct(data, i);
         }
 
-        int i = 0;
-        for(const auto & iter : memory_controller<int>::instance().return_const_pool()){
-            auto  iterCluster = std::find_if(iter.begin(), iter.end(),[&](auto const & cluster) {
-                return *cluster.first == i;
-            });
+        memory_controller<int>::instance().showMemPool();
 
-            if(iterCluster == iter.end()){
-                memory_controller<int>::instance().destroyAllMemory();
-                return false;
-            }
+        for(const auto & iter : memory_controller<int>::instance().return_const_pool()){
+            for(const auto & iterVect : iter )
+                std::cout << *iterVect.first << std::endl;
+        }
+
+        int i = 0;
+        bool isSituated = false;
+
+        while(i < 10) {
+            for (const auto &iter : memory_controller<int>::instance().return_const_pool())
+                for (auto const &iterVect : iter)
+                    if (*iterVect.first == i)
+                        isSituated = true;
+                        break;
+
             i++;
         }
+
         memory_controller<int>::instance().destroyAllMemory();
-        return true;
+        return isSituated;
     }
 
     bool clear_mem_pool(){
         self_allocator<int> alloc;
-        for(auto i = 0 ; i < 5; i++){
+        for(auto i = 0 ; i < 10; i++){
             auto data = alloc.allocate(1);
             alloc.construct(data, i);
         }
