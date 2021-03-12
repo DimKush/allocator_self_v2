@@ -10,7 +10,12 @@ set(MINOR_VERSION 1)
 message(DEBUG " Build type : ${CMAKE_BUILD_TYPE}")
 if(CMAKE_BUILD_TYPE STREQUAL Release)
     message(DEBUG " Build type : ${CMAKE_BUILD_TYPE}")
-    set(PATCH_VERSION $ENV{TRAVIS_BUILD_NUMBER})
+
+    if(DEFINED $ENV{TRAVIS_BUILD_NUMBER})
+        set(PATCH_VERSION $ENV{TRAVIS_BUILD_NUMBER})
+    else()
+        set(PATCH_VERSION 1)
+    endif()
 else()
     set(PATCH_VERSION 6)
 
@@ -19,13 +24,13 @@ endif()
 set(PROJECT_NAME allocator_self_v2)
 set(LIB_NAME alloc_mem)
 
-#prepare executable for test functionality in custom List and std::map OFF / ON)
+#option: prepare executable for test functionality in custom List and std::map OFF / ON)
 set(DEMO_READY ON)
 
-#SIZE OF CLUSTER IN MEMORY POOL
+#option: SIZE OF CLUSTER IN MEMORY POOL
 set(CLUSTER_SIZE 5)
 
-#turn off (-1) or turn on (1) debug option
+#option: turn off (-1) or turn on (1) debug option
 set(debug_log -1)
 
 #project declaration
@@ -37,9 +42,8 @@ include(${PROJECT_SOURCE_DIR}/gtest.cmake)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 configure_file(version.vers ${PROJECT_SOURCE_DIR}/version.h)
-configure_file(cluster.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/cluster_options.h)
+configure_file(cluster.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/memory_controller/cluster_options.h)
 configure_file(demo_status.options ${PROJECT_SOURCE_DIR}/lib_alloc/lib/demo_status.h)
 
 #shared_library

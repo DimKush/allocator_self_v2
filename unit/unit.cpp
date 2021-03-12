@@ -88,7 +88,6 @@ namespace units{
     }
 }
 
-
 TEST(checkPatchVersion, VersionController){
     ASSERT_TRUE(units::checkPatchVersion());
 };
