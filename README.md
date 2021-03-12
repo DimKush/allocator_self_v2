@@ -1,5 +1,7 @@
 # allocator_self_v2
-> Build system : sysname='Linux', nodename='pop-os', release='5.8.0-7630-generic', version='#32~1609193707~20.10~781bb80-Ubuntu SMP Tue Jan 5 21:29:56 UTC 2', machine='x86_64'
+[![Build Status](https://travis-ci.org/DimKush/allocator_self_v2.svg?branch=main)](https://travis-ci.org/github/DimKush/allocator_self_v2)
+
+> Build system : sysname='Linux', nodename='pop-os', release='5.8.0-7630-generic', machine='x86_64'
 
 Another implementation of default std::allocator to trick std::map, std::list etc containers, that it's values will be storage in one memory cluster like std::vector or std::array.
 
@@ -19,6 +21,25 @@ The main idea - is to build <abbr title="Singleton by Scott Meyers">Singleton</a
 + get the memory
 + drop the memory
 
+## How to use
+First of all, you need to add project as submodule in your git project.
+After that you need to run command in your home directory:
+
+`git submodule update --init --recursive`
+
+It's nessesary, because my project use googletest for unit tests. 
+After you updated submodules you should go to inside of submodule and after that, just run python script:
+
+`./build_project.py`
+
+It built all and if you turn on <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> packeged it like debian package.
+
+After you build your library, all you need to do is include
+
+## How to install/uninstall as deb
+//TODO
+## Direction of installing
+//TODO
 
 ## Unit tests
 Unit tests are based on [googletest](http://localhost/ "link title") library.
@@ -36,15 +57,6 @@ If you turn on The <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEBUG MOD<
     + fillCustomList - fill custom List
 		+ with std::alocator 
 		+ with self_allocator help.
-
-//TODO
-
-## How to use
-//TODO
-## How to install/uninstall as deb
-//TODO
-## Direction of installing
-//TODO
 
 # Main unresolved problem of the project.
 Right know memory_controller and self_allocator can't work with std::thread and std::async.
