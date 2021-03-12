@@ -1,8 +1,8 @@
 #ifndef _SELF_ALLOCATOR_H_
 #define _SELF_ALLOCATOR_H_
 
-#include "memory_controller/memory_controller.h"
-#include <alloc_mem_export.h>
+#include "../memory_controller/memory_controller.h"
+#include "../memory_controller/alloc_mem_export.h"
 
 
 template<typename Type>
