@@ -1,7 +1,7 @@
 # allocator_self_v2
 [![Build Status](https://travis-ci.org/DimKush/allocator_self_v2.svg?branch=main)](https://travis-ci.org/github/DimKush/allocator_self_v2)
 
-> Build system : sysname='Linux', nodename='pop-os', release='5.8.0-7630-generic', machine='x86_64'
+> Build machine : sysname='Linux', nodename='pop-os', release='5.8.0-7630-generic', machine='x86_64'
 > compilers: gcc6, g++6
 > Build system: Cmake v3.14
 
