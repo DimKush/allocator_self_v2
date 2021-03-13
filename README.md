@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/DimKush/allocator_self_v2.svg?branch=main)](https://travis-ci.org/github/DimKush/allocator_self_v2)
 
 > Build system : sysname='Linux', nodename='pop-os', release='5.8.0-7630-generic', machine='x86_64'
+> compilers: gcc6, g++6
+> Build system: Cmake v3.14
 
 Another implementation of default std::allocator to trick std::map, std::list etc containers, that it's values will be storage in one memory cluster like std::vector or std::array.
 
@@ -32,14 +34,79 @@ After you updated submodules you should go to inside of submodule and after that
 
 `./build_project.py`
 
-It built all and if you turn on <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> packeged it like debian package.
+It'll build all and if you turn on <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> and it'll pack like debian package.
 
-After you build your library, all you need to do is include
+***To see memory traffic just turn on <abbr title="set(debug_log 1) in CmakeLists.txt">debug_log</abbr> ***.
 
-## How to install/uninstall as deb
-//TODO
-## Direction of installing
-//TODO
+After you build your library, all you need to do is include headers and use it For example, simple CmakeLists.txt:
+
+```cmake
+cmake_minimum_required(VERSION 3.14)
+
+set(PROJECT_NAME test)
+project(${PROJECT_NAME} VERSION 0.0.1)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# exec
+add_executable(${PROJECT_NAME}.out src/main.cpp)
+
+target_include_directories(${PROJECT_NAME}.out PUBLIC ${PROJECT_SOURCE_DIR}/allocator_self_v2/lib_alloc )
+```
+main.cpp:
+```cpp
+#include "lib/self_allocator/self_allocator.h"
+#include <iostream>
+#include <map>
+
+int main(int argc, char **argv){
+    int count_iterations = 0;
+
+    if(argc > 1)
+        count_iterations = std::stoi(argv[1]);
+    else {
+        std::cout << "argument isn't installed, set to default = 10.\n";
+        count_iterations = 10;
+    }
+
+    std::cout << "create std::map<int,int>\n";
+    std::map<int,int> defaultMap;
+    for(auto i = 0 ; i < count_iterations; i++)
+        defaultMap.insert({i, int{i} });
+
+    std::cout << "std::map<int,int, std::less<>, self_allocator<std::pair<int, int>>\n";
+    std::map<int,int, std::less<>, self_allocator<std::pair<int, int>>> customAllocMap;
+    for(auto i = 0 ; i < count_iterations; i++)
+        customAllocMap.insert({i, int{i} });
+
+    std::cout << "std::map<int,int> output\n";
+    for(const auto &i : defaultMap)
+        std::cout << i.second << '\n';
+
+    std::cout << "std::map<int,int, std::less<>, self_allocator<std::pair<int, int>> output\n";
+    for(const auto &i : customAllocMap)
+        std::cout << i.second << '\n';
+
+    return 0;
+}
+```
+## How to install/uninstall as deb (DEMO MOD)
+If you want to check the solution as installed debian package just run cmake with  <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> mode.
+In build directory you will see .deb package. Install it by the command:
+
+`sudo dpkg -i allocator_self_v2-0.1.1-Linux.deb`
+
+##### Direction of installing (DEMO MODE)
+By default, direction of installing is: `/home` directory. You can also change it :
+```cmake
+    install(TARGETS ${LIB_NAME} ${PROJECT_NAME}
+            RUNTIME DESTINATION "/home/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            LIBRARY DESTINATION "/home/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            DESTINATION "/${PROJECT_NAME}-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+            )
+
+```
 
 ## Unit tests
 Unit tests are based on [googletest](http://localhost/ "link title") library.
@@ -57,6 +124,3 @@ If you turn on The <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEBUG MOD<
     + fillCustomList - fill custom List
 		+ with std::alocator 
 		+ with self_allocator help.
-
-# Main unresolved problem of the project.
-Right know memory_controller and self_allocator can't work with std::thread and std::async.
