@@ -5,17 +5,12 @@
 > compilers: gcc6, g++6
 > Build system: Cmake v3.14
 
-Another implementation of default std::allocator to trick std::map, std::list etc containers, that it's values will be storage in one memory cluster like std::vector or std::array.
-
+Another implementation of default std::allocator to trick std::map, std::list etc. containers, that it's values will be stored in one memory cluster like in std::vector or std::array.
 ## The main purpose
-The main purpose of this project is to trick C++ default memory allocating and try to safe all elements near each other.
+The main purpose of this project is to trick C++ default memory allocation and try to save all elements near each other.
 
 ## Problem
-Sometimes, we want, that our containers elements (like std::list, std::map, std::set) situate sequentially.
-I heard, that guys in game development want it so much, because they want to safe some bytes of memory and get fast
-access to the elements of their self analogs of C++ containers.
-When you want to safe an order of elements in one "bucket" in any container, you can't do it, because features of memory
-allocating with this types of containers in C++ work as it works.
+We choose, that our container elements (like std::list, std::map, std::set) are situate sequentially. Many developers working with game development want it more functional and accessible, they want an easy and safe method to remove selected bytes of memory and have fast and easy access to the elements of their personal analogs of C++ containers. When you want to save an order of elements in one "bucket" in any container, you can't do it, because features of memory is allocating in containers according to specs in C++ work as it works.
 
 ## Idea of realisation
 ![Image alt](https://github.com/DimKush/readme_stuff/blob/main/self_allocator_v2/mem_pooler.png)
@@ -24,21 +19,19 @@ The main idea - is to build <abbr title="Singleton by Scott Meyers">Singleton</a
 + drop the memory
 
 ## How to use
-First of all, you need to add project as submodule in your git project.
-After that you need to run command in your home directory:
+First of all, you need to add a project as submodule in your git project. After that you need to run a command in your home directory:
 
 `git submodule update --init --recursive`
 
-It's nessesary, because my project use googletest for unit tests. 
-After you updated submodules you should go to inside of submodule and after that, just run python script:
+It's required, because my project use googletest for unit tests. After you updated submodules you should go to inside the submodule and after that, just run the python script:
 
 `./build_project.py`
 
-It'll build all and if you turn on <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> and it'll pack like debian package.
+It'll build all and if you turn on <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> and it'll pack like a Debian package.
 
-***To see memory traffic just turn on <abbr title="set(debug_log 1) in CmakeLists.txt">debug_log</abbr> ***.
+***To see memory traffic just turn on a <abbr title="set(debug_log 1) in CmakeLists.txt">debug_log</abbr> ***.
 
-After you build your library, all you need to do is include headers and use it For example, simple CmakeLists.txt:
+After you built your library, all you need to do is to include headers and apply it For example, simple CmakeLists.txt:
 
 ```cmake
 cmake_minimum_required(VERSION 3.14)
@@ -92,8 +85,8 @@ int main(int argc, char **argv){
 }
 ```
 ## How to install/uninstall as deb (DEMO MOD)
-If you want to check the solution as installed debian package just run cmake with  <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> mode.
-In build directory you will see .deb package. Install it by the command:
+If you want to check the solution as installed the Debian package runs cmake in  <abbr title="set(DEMO_READY ON) in CmakeLists.txt">DEMO READY</abbr> mode.
+In build directory you will see .deb package. Install it by command:
 
 `sudo dpkg -i allocator_self_v2-0.1.1-Linux.deb`
 
