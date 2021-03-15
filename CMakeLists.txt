@@ -84,7 +84,6 @@ else()
 
 endif()
 
-
 #include gtest cmake file
 
 find_package (Threads REQUIRED)
